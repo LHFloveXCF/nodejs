@@ -1,0 +1,12 @@
+{
+    "name": "momo-test-utils",
+    "version": "1.0.0",
+    "main": "index.js",
+    "description": "这是一个关于日期格式化的包",
+    "keywords": [
+        "momo",
+        "time",
+        "format"
+    ],
+    "license": "ISC"
+}
