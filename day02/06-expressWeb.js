@@ -2,6 +2,9 @@ const express = require('express')
 // 创建web服务器
 const app = express()
 
+// 调用express.static()方法，快速的对外提供静态资源
+app.use(express.static('./clock'))
+
 // 查询路径获取
 app.get('/', (req, res) => {
     console.log(req.query);
