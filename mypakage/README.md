@@ -3,7 +3,8 @@
 1. 格式化日期
 > 格式为："yyyy-MM-DD hh:mm:ss"
 代码示例：
-
+···js
 const myDateFormat = require('momo-test-utils')
 
 console.log(myDateFormat.formatDate(new Date()));
+···
