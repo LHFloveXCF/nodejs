@@ -16,7 +16,7 @@ const db = mysql.createPool({
     
 // })
 
-let userStr = 'select * from user'
+let userStr = 'select * from users'
 
 db.query(userStr, (err, result) => {
     console.log(result);
@@ -76,15 +76,15 @@ db.query(userStr, (err, result) => {
 // })
 
 // 标记删除数据
-let updateDeleteStr = 'update user set user_status = 1 where user_id = ?'
-db.query(updateDeleteStr, 3, (err, result) => {
-    if(err) {
-        return console.log(err.message);
+// let updateDeleteStr = 'update user set user_status = 1 where user_id = ?'
+// db.query(updateDeleteStr, 3, (err, result) => {
+//     if(err) {
+//         return console.log(err.message);
         
-    }
+//     }
 
-    if (result.affectedRows === 1) {
-        console.log('updateDeleteStr suc');
+//     if (result.affectedRows === 1) {
+//         console.log('updateDeleteStr suc');
         
-    }
-})
+//     }
+// })
