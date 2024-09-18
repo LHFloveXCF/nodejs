@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <button id="btnGET">GET</button>
+    <button id="btnPOST">POST</button>
+</body>
+
+<script>
+    $(function() {
+        $('#btnGET').on('click', function() {
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: 'http://127.0.0.1/get',
+                    data: {username: 'mm', age: 3},
+                    success: function(res) {
+                        console.log('成功');
+                    }
+                }
+            )
+        })
+
+        $('#btnPOST').on('click', function() {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: 'http://127.0.0.1/post',
+                    data: {username: '水滸傳', age: 3},
+                    success: function(res) {
+                        console.log('成功');
+                    }
+                }
+            )
+        })
+    })
+</script>
+
+</html>
