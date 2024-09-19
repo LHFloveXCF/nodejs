@@ -66,7 +66,7 @@ exports.updatePwd = function (req, res) {
 exports.updatePic = function (req, res) {
     let sql = 'update user set user_pic = ? where user_id = ?'
     
-    db.query(sql, [req.body.pic, req.body.user_id], (err, results) => {
+    db.query(sql, [req.body.avatar, req.auth.user_id], (err, results) => {
         if (err) {
             return res.errSend(err)
         }
