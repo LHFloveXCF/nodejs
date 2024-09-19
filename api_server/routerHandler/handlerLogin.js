@@ -1,4 +1,8 @@
 const db = require('../db/index')
+// 引入jsonwebtoken
+const jwt = require('jsonwebtoken');
+
+const config = require('../config')
 
 exports.register = (req, res) => {
     const userInfo = req.body
@@ -53,9 +57,22 @@ exports.login = (req, res) => {
         if (results.length !== 1) {
             return res.errSend('register failed 账号不存在')
         }
+
+        console.log(results);
+        
+
+        // 定义一个待保存token对象
+        const userToken = {...results[0], user_pass_word:''}
+
+        const token = jwt.sign(userToken, config.jwtSecreKey, { expiresIn: config.jwtTime })
+
+        console.log(token);
+        
+
         res.send({
             status: 0,
-            msg: 'login suc'
+            msg: 'login suc',
+            token: token
         })
     })
 }

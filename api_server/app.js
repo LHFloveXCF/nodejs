@@ -23,7 +23,7 @@ app.use(cors())
 
 // 定义全局中间件，处理统一处理异常;必须在路由之前引入，否则没有效果
 app.use((req, res, next) => {
-    res.errSend = function(err, status = 1) {
+    res.errSend = function (err, status = 1) {
         res.send({
             status: status,
             msg: err instanceof Error ? err.message : err
@@ -32,11 +32,32 @@ app.use((req, res, next) => {
     next()
 })
 
+const jwt = require('express-jwt')
+const config = require('./config')
+// 定义jwt中间件
+const jwtMiddleware = jwt.expressjwt({  
+    secret: config.jwtSecreKey, // 确保这里的键名与你的配置文件中的一致  
+    algorithms: config.algorithms  
+  }).unless({ path: [/^\/api\//] });
+
+app.use(jwtMiddleware)
+
+
 // 引入router
 app.use('/api', router)
+
+// 定义错误级别的中间件
+app.use((err, req, res, next) => {
+    // 验证失败导致的错误
+    if (err instanceof joi.ValidationError) return res.errSend(err)
+    // 身份认证失败后的错误
+    if (err.name === 'UnauthorizedError') return res.errSend('身份认证失败！')
+    // 未知的错误
+    res.cc(err)
+})
 
 // 监听端口
 app.listen(3007, () => {
     console.log('server is listenning on http://127.0.0.1:3007');
-    
+
 })
