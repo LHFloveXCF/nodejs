@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }))
 // 引入全局中间件 cors 来处理跨域问题
 app.use(cors())
 
-// 定义全局中间件，处理统一处理异常
+// 定义全局中间件，处理统一处理异常;必须在路由之前引入，否则没有效果
 app.use((req, res, next) => {
     res.errSend = function(err, status = 1) {
         res.send({

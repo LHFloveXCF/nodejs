@@ -2,9 +2,6 @@ const db = require('../db/index')
 
 exports.register = (req, res) => {
     const userInfo = req.body
-
-    console.log(userInfo);
-    
     if (userInfo.user_name === '' || !userInfo.user_name
         || !userInfo.pass_word || userInfo.pass_word === '') {
         return res.errSend('register failed all of the info need')
@@ -30,7 +27,6 @@ exports.register = (req, res) => {
                 if (err) {
                     return res.errSend('register failed 插入数据失败' + err.message)
                 }
-                console.log(result);
                 
                 if (result.affectedRows !== 1) {
                     return res.errSend('register failed 插入失败')
@@ -47,9 +43,20 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    res.send({
-        status: 0,
-        msg: 'login suc'
+    const userInfo = req.body
+    let str = 'select * from user where user_name = ?'
+    db.query(str, userInfo.user_name, (err, results) => {
+        if (err) {
+            return res.errSend('register failed 账号查询异常' + err.message)
+        }
+
+        if (results.length !== 1) {
+            return res.errSend('register failed 账号不存在')
+        }
+        res.send({
+            status: 0,
+            msg: 'login suc'
+        })
     })
 }
 
