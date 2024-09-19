@@ -48,8 +48,10 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
     const userInfo = req.body
+    console.log(userInfo);
+    
     let str = 'select * from user where user_name = ?'
-    db.query(str, userInfo.user_name, (err, results) => {
+    db.query(str, userInfo.username, (err, results) => {
         if (err) {
             return res.errSend('register failed 账号查询异常' + err.message)
         }
@@ -64,7 +66,7 @@ exports.login = (req, res) => {
         // 定义一个待保存token对象
         const userToken = {...results[0], user_pass_word:''}
 
-        const token = jwt.sign(userToken, config.jwtSecreKey, { expiresIn: config.jwtTime })
+        const token = jwt.sign(userToken, config.jwtSecreKey, { algorithm: 'HS256', expiresIn: config.jwtTime})
 
         console.log(token);
         
@@ -72,7 +74,7 @@ exports.login = (req, res) => {
         res.send({
             status: 0,
             msg: 'login suc',
-            token: token
+            token: 'Bearer ' + token
         })
     })
 }

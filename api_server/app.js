@@ -42,18 +42,21 @@ const jwtMiddleware = jwt.expressjwt({
 
 app.use(jwtMiddleware)
 
+const infoRouter = require('./router/userinfo')
+app.use('/my', infoRouter)
+
 
 // 引入router
 app.use('/api', router)
 
 // 定义错误级别的中间件
 app.use((err, req, res, next) => {
-    // 验证失败导致的错误
-    if (err instanceof joi.ValidationError) return res.errSend(err)
+    // console.log(req);
+    
     // 身份认证失败后的错误
     if (err.name === 'UnauthorizedError') return res.errSend('身份认证失败！')
     // 未知的错误
-    res.cc(err)
+    res.errSend(err)
 })
 
 // 监听端口
