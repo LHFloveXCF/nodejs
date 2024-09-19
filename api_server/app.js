@@ -21,6 +21,17 @@ app.use(express.urlencoded({ extended: false }))
 // 引入全局中间件 cors 来处理跨域问题
 app.use(cors())
 
+// 定义全局中间件，处理统一处理异常
+app.use((req, res, next) => {
+    res.errSend = function(err, status = 1) {
+        res.send({
+            status: status,
+            msg: err instanceof Error ? err.message : err
+        })
+    }
+    next()
+})
+
 // 引入router
 app.use('/api', router)
 

@@ -7,48 +7,33 @@ exports.register = (req, res) => {
     
     if (userInfo.user_name === '' || !userInfo.user_name
         || !userInfo.pass_word || userInfo.pass_word === '') {
-        return res.send({
-            status: 1,
-            msg: 'register failed all of the info need'
-        })
+        return res.errSend('register failed all of the info need')
     }
 
-    let str = 'select * from users where user_name = ?'
+    let str = 'select * from user where user_name = ?'
 
     db.query(str, userInfo.user_name, (err, results) => {
         if (err) {
             console.log('error' + err.message);
             
-            return res.send({
-                status: 1,
-                msg: 'register failed 账号查询异常'
-            })
+            return res.errSend('register failed 账号查询异常')
         }
 
         if (results.length !== 0) {
-            return res.send({
-                status: 1,
-                msg: 'register failed 账号已经存在'
-            })
+            return res.errSend('register failed 账号已经存在')
         }
 
-        let insertStr = 'insert into users set user_name = ?, user_pass_word = ?'
+        let insertStr = 'insert into user set user_name = ?, user_pass_word = ?'
 
         db.query(insertStr, [userInfo.user_name, userInfo.pass_word],
             (err, result) => {
                 if (err) {
-                    return res.send({
-                        status: 1,
-                        msg: 'register failed 插入数据失败'
-                    })
+                    return res.errSend('register failed 插入数据失败' + err.message)
                 }
                 console.log(result);
                 
                 if (result.affectedRows !== 1) {
-                    return res.send({
-                        status: 1,
-                        msg: 'register failed 插入失败'
-                    })
+                    return res.errSend('register failed 插入失败')
                 }
                 res.send({
                     status: 0,
